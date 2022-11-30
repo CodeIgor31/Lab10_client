@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects type="array">
+  <object>
+    <def type="integer">0</def>
+    <sqr type="integer">0</sqr>
+  </object>
+  <object>
+    <def type="integer">1</def>
+    <sqr type="integer">1</sqr>
+  </object>
+  <object>
+    <def type="integer">2</def>
+    <sqr type="integer">4</sqr>
+  </object>
+  <object>
+    <def type="integer">3</def>
+    <sqr type="integer">9</sqr>
+  </object>
+  <object>
+    <def type="integer">11</def>
+    <sqr type="integer">121</sqr>
+  </object>
+  <object>
+    <def type="integer">22</def>
+    <sqr type="integer">484</sqr>
+  </object>
+</objects>

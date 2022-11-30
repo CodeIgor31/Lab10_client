@@ -1,0 +1,9 @@
+<h1>Ответ сервера</h1>
+<% if @side == 'html' %>
+<%= render inline: @result %>
+<% elsif @side == 'xml'%>
+<%= @result %>
+<% else %>
+<%= @result %>
+<% end %>
+<p><%= link_to "Вернуться назад", home_path %></p>
