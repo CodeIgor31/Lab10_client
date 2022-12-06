@@ -1,28 +1,34 @@
 require 'nokogiri'
 require 'open-uri'
 class PalindromsController < ApplicationController
+  include PalindromsHelper
+  before_action :correct_num, only: :result
+
   def index
   end
   def result
     @number = params[:num].to_i
-    redirect_to home_path, notice: 'Вводите числа >= 0' if @number.negative?
+
+    redirect_to home_path unless flash.empty?
+    return unless flash.empty?
+
     @side = params[:side]
     my_url = URL + "&num=#{@number}"
     server_response = URI.open(my_url)
     if @side == 'html'
-      @result = xslt_trans(server_response).to_html
-    elsif @side == 'xml'
-      @result = Nokogiri::XML(server_response)
+      render inline: xslt_trans(server_response).to_html
+    elsif @side == 'server'
+      render xml: insert_xslt_line(server_response)
     else
-      @result = insert_xslt_line(server_response)
+      render xml: server_response
     end
   end
 
 
   private
-  URL = 'http://localhost:3000/?format=xml'.freeze
+  URL = 'http://localhost:3001/?format=xml'.freeze
   SERV_TRANS = "#{Rails.root}/public/transform.xslt".freeze
-  BROWS_TRANS = '/server_transform.xslt'.freeze
+  BROWS_TRANS = "/transform.xslt".freeze
 
   def xslt_trans(data, transform: SERV_TRANS)
     doc = Nokogiri::XML(data)

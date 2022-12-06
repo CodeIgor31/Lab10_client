@@ -1,6 +1,6 @@
 <h3>Задание:</h3> Найти все числа, которые сами являсь палиндромами, при возведении в квадрат, образуют палиндромы.
 <h4>Форма</h4>
-<%= form_with url: "palindroms/result", method: :get do |form| %>
+<%= form_with url: "palindroms/result", data: {turbo: false}, method: :get do |form| %>
   <p><%= form.label :query, "Введите верхнюю границу диапазона [0,n]" %></p>
   <p><%= form.number_field(:num, {:class => 'form-control'}) %></p>
   <%= form.radio_button :side, 'xml' %> XML-format
