@@ -1,11 +1,16 @@
+# frozen_string_literal: true
+
 require 'nokogiri'
 require 'open-uri'
+
+# main controller
 class PalindromsController < ApplicationController
   include PalindromsHelper
   before_action :correct_num, only: :result
+  URL = 'http://localhost:3001/?format=xml'
 
-  def index
-  end
+  def index; end
+
   def result
     @number = params[:num].to_i
 
@@ -15,32 +20,6 @@ class PalindromsController < ApplicationController
     @side = params[:side]
     my_url = URL + "&num=#{@number}"
     server_response = URI.open(my_url)
-    if @side == 'html'
-      render inline: xslt_trans(server_response).to_html
-    elsif @side == 'server'
-      render xml: insert_xslt_line(server_response)
-    else
-      render xml: server_response
-    end
-  end
-
-
-  private
-  URL = 'http://localhost:3001/?format=xml'.freeze
-  SERV_TRANS = "#{Rails.root}/public/transform.xslt".freeze
-  BROWS_TRANS = "/transform.xslt".freeze
-
-  def xslt_trans(data, transform: SERV_TRANS)
-    doc = Nokogiri::XML(data)
-    xslt = Nokogiri::XSLT(File.read(transform))
-    xslt.transform(doc)
-  end
-
-  def insert_xslt_line(data, transform: BROWS_TRANS)
-    doc = Nokogiri::XML(data)
-    xslt = Nokogiri::XML::ProcessingInstruction.new(
-    doc,'xml-stylesheet', 'type="text/xsl" href="' + transform + '"')
-    doc.root.add_previous_sibling(xslt)
-    doc
+    redirect_to home_path, alert: 'Выберите кнопку' if print_result(@side, server_response).nil?
   end
 end
